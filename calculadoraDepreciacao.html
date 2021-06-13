@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calculadora de Depreciação de Equipamentos</title>
+	<link rel="stylesheet" type="text/css" href="estiloDepreciacao.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap" rel="stylesheet">
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+
+
+	<div id="container">
+
+		<div class="titulo">
+			<h4>Calculadora de Depreciação de Equipamentos</h4>
+		</div>
+
+		<div class="form">
+		
+			<form>
+				
+				<label>Classe:.</label><br>
+				<select class="classes">
+					<option name="moveis" value="10" selected>Móveis</option>
+					<option name="informatica" value="20">Informática</option>
+					<option name="comunicacao" value="10">Comunicação</option>
+					<option name="hospitalar" value="10">Hospitalar</option>
+					<option name="imoveis" value="5">Imóveis</option>
+
+				</select><br><br>
+
+				<label>Custo:.</label><br>
+				<input type="text" class="valor"><br><br>
+
+				<!--<label>Data:.</label><br>
+				<input type="text" class="data"><br><br>
+				-->
+				<label>Quantidade de Dias:.</label><br>
+				<input type="text" class="dias"><br><br>
+			</form>
+		</div>
+			
+	</div>
+
+	<div class="botao">
+		<button class="calc" >Calcular</button>
+		<button class="limparCampos" >Limpar</button>
+	</div>
+
+	<div class="result">
+		
+	</div>
+
+	
+
+	<script type="text/javascript">
+			'use strict';
+			    const calculaDeprec = () =>{	
+
+			    	let selectClasse = document.querySelector(".classes");
+					let dias = document.querySelector(".dias");
+					let custo = document.querySelector(".valor");
+					let result = document.querySelector(".result");
+					let resultDepreciacao = 0;
+
+			    	let valor = Number(custo.value);
+					if (valor !== "" &&  !isNaN(valor)){
+						if(!isNaN(dias.value) && dias.value !== ""){
+							let valorClasse = Number(selectClasse.options[selectClasse.selectedIndex].value);
+							resultDepreciacao = ((valor * ((valorClasse / 365) / 100)) * dias.value);
+							if(resultDepreciacao <= valor){
+							document.querySelector(".result").innerHTML = 
+							 `  
+							 <table>
+
+							 	<thead>
+							 		<tr>
+								 		<th> Custo do Equipamento </th>
+								 		<th> Depreciação Acumulada </th> 
+								 		<th> Valor Residual </th>
+								 		<th> Taxa anual % </th>
+							 		</tr>
+							 	</thead>
+
+								<tbody> 
+									<tr>
+									 	<td> ${valor.toFixed(2)} </td>
+										<td> ${resultDepreciacao.toFixed(2)} </td>
+										<td> ${valor.toFixed(2) - resultDepreciacao.toFixed(2)} </td>
+										<td> ${valorClasse + "%"} </td>
+									</tr>
+								</tbody>
+
+							</table> `;
+
+							}else{alert("Tempo de vida útil esgotado");}
+							
+							
+						}else{
+							alert('Informe caracteres válidos para a quantidade de dias.');
+						}
+				
+					}else{
+						alert('Informe caracteres válidos para o custo.');
+					}
+				
+				}
+
+
+				const limparCampos = () =>{
+					document.querySelector(".dias").value = '';
+					document.querySelector(".valor").value = '';
+					document.querySelector(".result").innerHTML = '';
+
+				}
+
+			document.querySelector(".calc").addEventListener("click",calculaDeprec);
+			document.querySelector(".limparCampos").addEventListener("click",limparCampos);
+
+	</script>
+
+</body>
+</html>
